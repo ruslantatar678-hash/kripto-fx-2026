@@ -187,14 +187,16 @@ async def cb_get_random(call):
     except Exception as e:
         await call.message.answer(f'Ошибка при получении данных: {e}')
 
-@dp.callback_query(F.data == 'choose_pair')
-async def cb_choose_pair(call):
-   kb = InlineKeyboardMarkup(inline_keyboard=[
-    [InlineKeyboardButton(text=p, callback_data=f"pair_{p.replace('/', '_')}")] for p in PAIRS
-])       
+@dp.callback_query(lambda c: c.data == "choose_pair")
+async def choose_pair(call: types.CallbackQuery):
+    kb = InlineKeyboardMarkup(
+        inline_keyboard=[
+            [InlineKeyboardButton(text=p, callback_data=f"pair_{p.replace('/', '_')}")]
+            for p in PAIRS
+        ]
+    )
+    await call.message.answer("Выбери пару для запоминания:", reply_markup=kb) 
     
-    await call.message.answer('Выбери пару для запоминания:', reply_markup=kb)
-
 @dp.callback_query(lambda c: c.data and c.data.startswith('pair_'))
 async def cb_pair_selected(call):
     chat_id = call.message.chat.id
