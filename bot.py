@@ -189,7 +189,9 @@ async def cb_get_random(call):
 
 @dp.callback_query(F.data == 'choose_pair')
 async def cb_choose_pair(call):
-    kb = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text=p, callback_data=f'pair_{p.replace('/', '_')}')] for p in PAIRS])
+   kb = InlineKeyboardMarkup(inline_keyboard=[
+    [InlineKeyboardButton(text=p, callback_data=f"pair_{p.replace('/', '_')}")] for p in PAIRS
+])
     await call.message.answer('Выбери пару для запоминания:', reply_markup=kb)
 
 @dp.callback_query(lambda c: c.data and c.data.startswith('pair_'))
