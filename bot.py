@@ -195,8 +195,8 @@ async def choose_pair(call: types.CallbackQuery):
             for p in PAIRS
         ]
     )
-    await call.message.answer("Выбери пару для запоминания:", reply_markup=kb) 
-    
+    await call.message.answer("Выбери пару для запоминания:", reply_markup=kb)
+
 @dp.callback_query(lambda c: c.data and c.data.startswith('pair_'))
 async def cb_pair_selected(call):
     chat_id = call.message.chat.id
